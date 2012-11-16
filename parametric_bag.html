@@ -1,0 +1,64 @@
+<html>
+<head>
+<script language="javascript" src="raphael-min.js"></script>
+<script language="javascript">
+
+function generate() {
+  var ipadheight = parseFloat(document.getElementById('ipadheight').value);
+  var ipadwidth = parseFloat(document.getElementById('ipadwidth').value);
+  var ipaddepth = parseFloat(document.getElementById('ipaddepth').value);
+  var phonewidth = parseFloat(document.getElementById('phonewidth').value);
+  var phonedepth = parseFloat(document.getElementById('phonedepth').value);
+  this.strapwidth = parseFloat(document.getElementById('strapwidth').value);
+  var shoulderoverlap = parseFloat(document.getElementById('shoulderoverlap').value);
+  var seamallowance = parseFloat(document.getElementById('seamallowance').value);
+
+  this.cutlength = (ipadheight*3)+ipaddepth+shoulderoverlap;
+  this.cutwidth = ipadwidth+ipaddepth+(seamallowance*2);
+  this.flapsewheight = phonewidth+phonedepth;
+  this.flapwidth = cutwidth-(strapwidth*2);
+
+  var output = "Cut Length: "+cutlength+"\r\nCut Width: "+cutwidth+"\r\nFlap Sew Height: "+flapsewheight+"\r\nFlap Width: "+flapwidth;
+  document.getElementById('output').value = output;
+
+}
+
+function generatesvg() {
+var margin = 10;
+var dpi = 90;  //inkscape is 90dpi default
+
+// Creates canvas 320 × 200 at 10, 50
+var paper = Raphael(500, 0, (cutwidth+(margin*2))*dpi, (cutlength+(margin*2))*dpi);
+
+// rect(x, y, width, height, [r])
+var overall = paper.rect(margin, margin, cutwidth*dpi, cutlength*dpi);
+var flap = paper.rect(margin+(strapwidth*dpi), margin, flapwidth*dpi, (cutlength/3)*dpi);
+overall.attr("stroke-width", "1");
+flap.attr("stroke-width", "1");
+
+   var canvas_=document.getElementsByTagName("svg")[0];
+   var text = (new XMLSerializer()).serializeToString(canvas_);
+   var encodedText = encodeURIComponent(text);
+   open("data:image/svg+xml," + encodedText);
+
+}
+</script>
+</head>
+<body>
+<div id="wrapper" style="width: 500px;">
+  <h2>Parametric iPad Case</h2>
+  <p>All defaults in inches, your measurements can be in any units. Shoulder overlap = the amount added to the shoulder straps and also the amount by which the shoulder straps will overlap. The Flap Sew Height result is how far from the top of the bag to stitch the flap on, to fit your phone.</p>
+  iPad Height: <input id="ipadheight" type="text" value="10" /><br/>
+  iPad Width: <input id="ipadwidth" type="text" value="8" /><br/>
+  iPad Depth: <input id="ipaddepth" type="text" value="0.75" /><br/>
+  Phone Width: <input id="phonewidth" type="text" value="3" /><br/>
+  Phone Depth: <input id="phonedepth" type="text" value="0.5" /><br/>
+   Strap Width: <input id="strapwidth" type="text" value="1" /><br/>
+  Shoulder Overlap: <input id="shoulderoverlap" type="text" value="1" /><br/>
+  Seam Allowance: <input id="seamallowance" type="text" value="0.25" /><br/>
+  <input type="button" value="Generate Bag" onclick="generate()" />
+  <input type="button" value="Generate SVG" onclick="generatesvg()" /><br/>
+  <textarea id="output" style="width: 20em; height: 6em;"></textarea><br/>
+</div>
+</body>
+</html>
