@@ -28,7 +28,7 @@ var margin = 10;
 var dpi = 90;  //inkscape is 90dpi default
 
 // Creates canvas 320 × 200 at 10, 50
-var paper = Raphael(500, 0, (cutwidth+(margin*2))*dpi, (cutlength+(margin*2))*dpi);
+var paper = Raphael(500, 0, (cutwidth*dpi)+(margin*2), (cutlength*dpi)+(margin*2));
 
 // rect(x, y, width, height, [r])
 var overall = paper.rect(margin, margin, cutwidth*dpi, cutlength*dpi);
